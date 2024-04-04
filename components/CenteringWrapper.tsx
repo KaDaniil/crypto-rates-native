@@ -7,7 +7,7 @@ const CenteringWrapper = ({ children }) => {
 
 const styles = StyleSheet.create({
     centeringWrapper: {
-        flex: 1, // This makes the component expand to fill its parent, similar to height: 100%
+        flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
     },

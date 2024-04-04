@@ -16,9 +16,6 @@ class CurrencyStore {
         this.error = null;
     }
 
-    setSearchTerm(term: string): void {
-        this.searchTerm = term;
-    }
     setCurrencies(currencies: ParticularCurrencyRates): void {
         this.currencies = currencies;
     }
@@ -40,17 +37,6 @@ class CurrencyStore {
             }
         }
     }
-
-    get filteredCurrencies(): ParticularCurrencyRates {
-        const lowerCaseTerm = this.searchTerm.toLowerCase();
-        return Object.entries(this.currencies)
-            .reduce((acc, [key, value]) =>
-                    key.includes(lowerCaseTerm)
-                        ? ({ ...acc, [key]: value })
-                        : acc,
-                {});
-    }
-
 }
 
 export const currencyStore = new CurrencyStore();

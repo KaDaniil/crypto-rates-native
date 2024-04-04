@@ -92,7 +92,6 @@ const styles = StyleSheet.create({
     error: {
         color: 'red',
     },
-    // Add more styles as needed
 });
 
 export default HomeScreen;
