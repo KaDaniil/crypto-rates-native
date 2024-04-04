@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
-import { View, Text, TextInput, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { currencyStore } from '../store/CurrencyStore';
 import Loader from '../components/Loader';
@@ -21,16 +21,6 @@ const HomeScreen = observer(() => {
         .filter(([name]) => name.toLowerCase().includes(searchTerm))
         .map(([name, data]) => ({ name, ...data }));
 
-    const renderItem = ({ item }) => (
-        <TouchableOpacity
-            style={styles.item}
-            onPress={() => navigation.navigate('Coin', { coinId: item.name })}
-        >
-            <Text style={styles.itemText}>{item.name.toUpperCase()}</Text>
-            <Text style={styles.itemSubText}>{item.rate.toFixed(6)}</Text>
-        </TouchableOpacity>
-    );
-
     if (currencyStore.isLoading) return <Loader />;
     if (currencyStore.error) return <View style={styles.centered}><Text style={styles.error}>{currencyStore.error}</Text></View>;
 
@@ -42,12 +32,18 @@ const HomeScreen = observer(() => {
                 placeholder="Search for a currency"
                 clearButtonMode="while-editing"
             />
-            <FlatList
-                data={filteredCurrencies}
-                renderItem={renderItem}
-                keyExtractor={item => item.name}
-                style={styles.list}
-            />
+            <ScrollView style={styles.list}>
+                {filteredCurrencies.map((item) => (
+                    <TouchableOpacity
+                        key={item.name}
+                        style={styles.item}
+                        onPress={() => navigation.navigate('Coin', { coinId: item.name })}
+                    >
+                        <Text style={styles.itemText}>{item.name.toUpperCase()}</Text>
+                        <Text style={styles.itemSubText}>{`${item.rate.toFixed(6)}`}</Text>
+                    </TouchableOpacity>
+                ))}
+            </ScrollView>
         </View>
     );
 });
